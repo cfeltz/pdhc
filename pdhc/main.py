@@ -3,10 +3,7 @@ import fastapi
 import logging
 import uvicorn
 
-from pdhc.utils import network
 from pdhc import api
-
-logger = logging.getLogger('uvicorn.error')  # or setup your own logger
 
 import pdhc.config
 

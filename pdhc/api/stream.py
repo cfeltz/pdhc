@@ -1,7 +1,7 @@
 import asyncio
 import logging
-from fastapi import APIRouter, Request, HTTPException
-from fastapi.responses import StreamingResponse
+import fastapi
+from fastapi import responses
 
 from typing import Optional
 
@@ -13,7 +13,7 @@ import pdhc.config
 LOG = logging.getLogger(__name__)
 CONF = pdhc.config.CONF
 
-router = APIRouter()
+router = fastapi.APIRouter()
 
 
 class StreamGenerator:
@@ -131,7 +131,7 @@ class StreamGenerator:
             refresh_task.cancel()
             
 
-async def stream(request: Request, channel_id: int, transcode: Optional[str] = None):
+async def stream(request: fastapi.Request, channel_id: int, transcode: Optional[str] = None):
     channels = request.app.state.channels
 
     found_channel = None
@@ -140,13 +140,13 @@ async def stream(request: Request, channel_id: int, transcode: Optional[str] = N
             found_channel = channel
             break
     if not found_channel:
-        raise HTTPException(status_code=400, detail='Invalid channel ID')
+        raise fastapi.HTTPException(status_code=400, detail='Invalid channel ID')
 
     stream_generator = StreamGenerator(found_channel)
 
     headers = {'Content-Type': 'video/mp2t'}
 
-    return StreamingResponse(stream_generator.stream(), headers=headers)
+    return responses.StreamingResponse(stream_generator.stream(), headers=headers)
 
 
 def register_route(router):

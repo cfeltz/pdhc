@@ -42,4 +42,4 @@ async def discover(request: fastapi.Request):
     )
 
 def register_route(router):
-    router.add_api_route('/discover', discover, methods=['GET'], response_model=DVR)
+    router.add_api_route('/discover.json', discover, methods=['GET'], response_model=DVR)

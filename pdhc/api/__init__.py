@@ -4,6 +4,7 @@ import fastapi
 from pdhc.api import discover 
 from pdhc.api import lineup 
 from pdhc.api import stream 
+from pdhc.api import xmltv 
 from pdhc.utils import network 
 
 
@@ -19,3 +20,4 @@ async def lifespan(app: fastapi.FastAPI):
 discover.register_route(ROUTER)
 lineup.register_route(ROUTER)
 stream.register_route(ROUTER)
+xmltv.register_route(ROUTER)
